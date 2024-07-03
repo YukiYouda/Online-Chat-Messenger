@@ -17,12 +17,14 @@ while True:
     print('\nwaiting to receive message')
     header, address = sock.recvfrom(1)
     username_length = int.from_bytes(header[:1], "big")
+    user_name = sock.recvfrom(username_length)[0].decode('utf-8')
 
-    print(sock.recvfrom(username_length)[0].decode('utf-8'))
+    # ユーザー情報の登録
+    user_info = {}
+    user_info[user_name] = address
 
-    print('received {} bytes from {}'.format(len(data), address))
-    print(data)
+    # メッセージの受信
+    message = sock.recvfrom(4096)
 
-    if data:
-        sent = sock.sendto(data, address)
-        print('sent {} bytes back to {}'.format(sent, address))
+    if message:
+        sock.sendto(*message)
