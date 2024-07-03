@@ -15,7 +15,10 @@ sock.bind((server_address, server_port))
 
 while True:
     print('\nwaiting to receive message')
-    data, address = sock.recvfrom(4096)
+    header, address = sock.recvfrom(1)
+    username_length = int.from_bytes(header[:1], "big")
+
+    print(sock.recvfrom(username_length)[0].decode('utf-8'))
 
     print('received {} bytes from {}'.format(len(data), address))
     print(data)
