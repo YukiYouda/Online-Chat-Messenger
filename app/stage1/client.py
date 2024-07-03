@@ -8,14 +8,15 @@ server_port = 9001
 
 address = ''
 port = 9050
-message = b'Message to send to the client.'
+message = input('メッセージを入力してください : ')
+message_byte = message.encode('utf-8')
 
 sock.bind((address, port))
 
 try:
     print('sending {!r}'.format(message))
     # サーバーへのデータ送信
-    sent = sock.sendto(message, (server_address, server_port))
+    sent = sock.sendto(message_byte, (server_address, server_port))
     print('Send {} bytes'.format(sent))
 
     # 応答を受信
